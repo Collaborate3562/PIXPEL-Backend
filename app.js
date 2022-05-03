@@ -8,9 +8,7 @@ const path = require("path");
 const router = require("./routes");
 
 mongoose.connect(config.db.main, config.db.options);
-console.log("db connect   " + config.db.main);
 mongoose.connection.on('error', console.log);
-console.log('launched', process.env.PORT);
 
 const app = express();
 
@@ -19,6 +17,7 @@ app.options('*', cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(router);
+// console.log('jwt', require('crypto').randomBytes(64).toString('hex'));
 const server = app.listen(config.port, () => {
 	console.log(`Server listening at port : `, config.port);
 });
