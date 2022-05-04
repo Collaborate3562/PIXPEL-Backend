@@ -16,6 +16,7 @@ const marketModel = new Schema({
     expiretime: { type: Number, required: true },
     saletype: { type: String, required: true},
     isauction: { type: Boolean },
+    chain: { type: String, required: true },
     created: { type: Date, default: Date.now },
     updatedAt: {
         type: Number

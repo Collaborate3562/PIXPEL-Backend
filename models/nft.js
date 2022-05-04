@@ -10,6 +10,7 @@ const nftModel = new Schema({
     developmentid: { type: Number,required: true },
     price: { type: Number, required: true },
     addressminted: { type: String, required: true },
+    chain: { type: String, required: true },
     created: { type: Date, default: Date.now },
     updatedAt: {
         type: Number
