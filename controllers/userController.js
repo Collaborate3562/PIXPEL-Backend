@@ -85,7 +85,7 @@ exports.signup = async (req, res) => {
     }
 };
   
-exports.authenticate = async (req, res) => {
+exports.signin = async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
         const errors = result.array({ onlyFirstError: true });
