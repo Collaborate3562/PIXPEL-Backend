@@ -18,5 +18,8 @@ const nftModel = new Schema({
 });
 
 nftModel.set('toJSON', { getters: true });
+nftModel.pre(/^find/, function () {
+    this.populate('user');
+});
 
 module.exports = mongoose.model('nft', nftModel);

@@ -20,58 +20,52 @@ exports.signup = async (req, res) => {
         const userData = {
             username: username.toLowerCase().trim(),
             password: hashedPassword
-    };
-  
-    const existingUsername = await User.findOne({
-        username: userData.username
-    });
-
-    if (existingUsername) {
-        return res.status(400).json({
-            message: 'Username already exists.'
-        });
-    }
-  
-      //get new address
-      // const respond = await getNewAddress();
-      // console.log(respond.body);
-      // if (respond.body && respond.body.error == null) {
-      //   userData.address = respond.body.result;
-  
-    if (referrer && referrer != username) {
-        const user = await User.findOne({ username: referrer });
-        if (user) {
-            userData.referrer = referrer;
-            user.downlines.push(username);
-            await user.save();
-        }
-    }
-    const newUser = new User(userData);
-    const savedUser = await newUser.save();
-  
-    if (savedUser) {
-        const token = createToken(savedUser);
-        const decodedToken = jwtDecode(token);
-        const expiresAt = decodedToken.exp;
-  
-        const { username, role, id, created, doge, address, my_address } = savedUser;
-        const userInfo = {
-            username,
-            role,
-            id,
-            doge,
-            address,
-            my_address,
-            created,
-            level: 1
         };
   
-        return res.json({
-            message: 'User created!',
-            token,
-            userInfo,
-            expiresAt
+        const existingUsername = await User.findOne({
+            username: userData.username
         });
+
+        if (existingUsername) {
+            return res.status(400).json({
+                message: 'Username already exists.'
+            });
+        }
+  
+        if (referrer && referrer != username) {
+            const user = await User.findOne({ username: referrer });
+            if (user) {
+                userData.referrer = referrer;
+                user.downlines.push(username);
+                await user.save();
+            }
+        }
+        const newUser = new User(userData);
+        const savedUser = await newUser.save();
+    
+        if (savedUser) {
+            const token = createToken(savedUser);
+            const decodedToken = jwtDecode(token);
+            const expiresAt = decodedToken.exp;
+    
+            const { username, role, id, created, doge, address, my_address } = savedUser;
+            const userInfo = {
+                username,
+                role,
+                id,
+                doge,
+                address,
+                my_address,
+                created,
+                level: 1
+            };
+    
+            return res.json({
+                message: 'User created!',
+                token,
+                userInfo,
+                expiresAt
+            });
         } else {
             return res.status(400).json({
                 message: 'There was a problem creating your account.'

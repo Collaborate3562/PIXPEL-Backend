@@ -24,5 +24,8 @@ const marketModel = new Schema({
 });
 
 marketModel.set('toJSON', { getters: true });
+marketModel.pre(/^find/, function () {
+    this.populate('user');
+});
 
 module.exports = mongoose.model('market', marketModel);
